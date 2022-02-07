@@ -1,15 +1,24 @@
-# Basic Sample Hardhat Project
+# Lottery Polygon Hardhat Project💰
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+This project demonstrates a lottery smart contract . It comes with the main [contract](https://github.com/user/repo/blob/branch/contracts/Lottery.sol), a [test](https://github.com/user/repo/blob/branch/test/test.js) for that contract, a sample [script](https://github.com/user/repo/blob/branch/scripts/sample-script.js) that deploys that contract.
 
 Try running some of the following tasks:
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
 ```
+npx hardhat accounts
+```
+
+🔼Will show 2 acccounts with test matic token in it.🔒
+```
+npx hardhat compile
+```
+🔼 This command will compile the main and VRF contract.🔩
+```
+npx hardhat run scripts/sample-script.js
+```
+🔼Deployment to the polygon mumbai testnet.📌
+```
+npx hardhat test --network matic
+```
+🔼Testing on the polygon mumbai testnet.⚗️
+
