@@ -4,10 +4,9 @@ pragma solidity ^0.8.0;
 import "hardhat/console.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 
-contract Greeter is VRFConsumerBase{
-    string private greeting;
+contract Lottery is VRFConsumerBase{
 
-    constructor(string memory _greeting)
+    constructor()
     VRFConsumerBase(
                 0x8C7382F9D8f56b33781fE506E897a4F1e2d17255, // VRF Coordinator
                 0x326C977E6efc84E512bB9C30f76E30c160eD06FB  // LINK Token
@@ -16,24 +15,12 @@ contract Greeter is VRFConsumerBase{
         owner = msg.sender; //Setting the owner to the deployer of the contract
         keyHash = 0x6e75b569a01ef56d18cab6a8e71e6600d6ce853834d4a5748b720d06f878b3a4;
         fee = 0.0001 * 10 ** 18; // LINK token fee needed for random number 
-        console.log("Deploying a Greeter with greeting:", _greeting);
-        greeting = _greeting;
     }
-
-    function greet() public view returns (string memory) {
-        return greeting; //abc
-    }
-
-    function setGreeting(string memory _greeting) public {
-        console.log("Changing greeting from '%s' to '%s'", greeting, _greeting);
-        greeting = _greeting;
-    }
-
 
     //Lottery variables
     address public owner;
-    mapping (uint=>address payable) public ticketId; //remove public Ticket IDs for each participant in the lottery
-    uint public totalTickets;  //remove public Total number of people participating in the lottery
+    mapping (uint=>address payable) public ticketId;
+    uint public totalTickets;
     bool public lotteryisActive; 
     uint public startTime;
     uint public stopTime;
@@ -78,15 +65,22 @@ contract Greeter is VRFConsumerBase{
     }
 
     function endLottery() public onlyOwner { // Owner ending an existing instance of lottery
+        
+        //Uncomment the below line for requirement of 1 hour duration 
+
         // require(block.timestamp>stopTime, "Please wait till stop time");
-        getRandomNumber();
+
+        //Uncomment below line after testing
+        // getRandomNumber(); 
         lotteryisActive = false;
         startTime = stopTime = 0;
     }
     //NOTE: Call disburseAmountToWinner() function after a minute of calling endLottery()"function (To get the random value from the oracle)
 
     function disburseAmountToWinner() public onlyOwner{ // Owner disbursing the winning amount
-        uint winner = randomResult;
+
+        uint winner = 2; // Comment this line and uncomment next line for chainlink random number in oracle 
+        // uint winner = randomResult;
         emit LotteryEnded(ticketId[winner], address(this).balance);
         ticketId[winner].transfer(address(this).balance);
         
@@ -108,10 +102,5 @@ contract Greeter is VRFConsumerBase{
     }
 
 }
-
-
-// contract Lottery is VRFConsumerBase {
-    
-
 
 
